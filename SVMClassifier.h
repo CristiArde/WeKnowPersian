@@ -20,6 +20,7 @@ public:
 	SVMClassifier();
 	~SVMClassifier();
 	void trainSVM(vector<string>, vector<int>);
+	void testSVM(vector<string>, vector<int>);
 private:
 	int imageMatrix;
 };

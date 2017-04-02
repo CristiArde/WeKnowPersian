@@ -64,3 +64,73 @@ void SVMClassifier::trainSVM(vector<string> trainingFilenames, vector<int> label
 	svm->save("classifier.yml");
 
 }
+
+void SVMClassifier::testSVM(vector<string> testFilenames, vector<int> testLabels)
+{
+	cv::Ptr<cv::ml::SVM> svm = cv::ml::StatModel::load<cv::ml::SVM>("classifier.yml");
+/*
+	// stats information
+	int totalClassifications = 0;
+	int totalCorrect = 0;
+	int totalWrong = 0;
+
+	// loop over test filenames
+	for (int index = 0; index<testFilenames.size(); index++)
+	{
+		// read image file (grayscale)
+		cv::Mat imgMat = cv::imread(testFilenames[index], 0);
+
+		// convert 2d to 1d	
+		cv::Mat testMat = imgMat.clone().reshape(1, 1);
+		testMat.convertTo(testMat, CV_32F);
+
+		// try to predict which number has been drawn
+		try{
+			int predicted = svm->predict(testMat);
+			//std::cout<< "expected: " << expectedLabels[index] << " -> predicted: " << predicted << std::endl;
+
+			// stats
+			totalClassifications++;
+			if (testLabels[index] == predicted) { totalCorrect++; }
+			else { totalWrong++; }
+
+		}
+		catch (cv::Exception ex){
+
+		}
+
+	}
+
+	// calculate percentages
+	float percentageCorrect = ((float)totalCorrect / totalClassifications) * 100;
+	float percentageIncorrect = 100 - percentageCorrect;
+
+	// output 
+	std::cout << std::endl << "Number of classications : " << totalClassifications << std::endl;
+	std::cout << "Correct:  " << totalCorrect << " (" << percentageCorrect << "%)" << std::endl;
+	std::cout << "Wrong: " << totalWrong << " (" << percentageIncorrect << "%)" << std::endl;
+	
+*/
+
+
+	// read image file (grayscale)
+	cv::Mat imgMat = cv::imread("ID0000389_p1_B36_cc1.tiff", 0);
+
+	// convert 2d to 1d	
+	cv::Mat testMat = imgMat.clone().reshape(1, 1);
+	testMat.convertTo(testMat, CV_32F);
+
+	// try to predict which number has been drawn
+	try{
+		int predicted = svm->predict(testMat);
+
+		std::cout << std::endl << "Recognizing following number -> " << predicted << std::endl << std::endl;
+
+		std::string notifyCmd = "notify-send -t 1000 Recognized: " + std::to_string(predicted);
+		system(notifyCmd.c_str());
+
+	}
+	catch (cv::Exception ex){
+
+	}
+}

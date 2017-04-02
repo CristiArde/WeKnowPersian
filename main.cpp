@@ -25,8 +25,11 @@ int main(int argc, char** argv)
 
 	
 	SVMClassifier* SVMclasy = new SVMClassifier();
-	SVMclasy->trainSVM(TrainFileNames, MatrixLabels);
+	//SVMclasy->trainSVM(TrainFileNames, MatrixLabels);
 
+
+	SVMclasy->testSVM(testFNames, testLabels);
+	system("pause");
 
 	return 0;
 
