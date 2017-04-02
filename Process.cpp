@@ -15,7 +15,7 @@ void Process::setTrainingFiles()
 {
 	//get the images ROOT folder
 	tinydir_dir training_directory_root;
-	tinydir_open(&training_directory_root, "Sample Digits");
+	tinydir_open(&training_directory_root, "Sample Digits Train");
 
 	// go over all folder inside Sample Digits root folder
 	while (training_directory_root.has_next)
@@ -46,7 +46,7 @@ void Process::setTrainingFiles()
 				int currentNumberLabel = atoi(file.name);
 
 				// prepend full training_files directory
-				numbersDirName.insert(0, "Sample Digits/");
+				numbersDirName.insert(0, "Sample Digits Train/");
 
 				//open the subfolder of Sample Digits
 				tinydir_dir training_number_subdir;
