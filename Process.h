@@ -19,14 +19,21 @@ class Process
 {
 public:
 	Process();
-	void getTrainingFiles();
-	void trainSVM();
+	void setTrainingFiles();
+	void setTestFiles();
+
 	vector<string> getTrainFileNames();
 	vector<int> getMatrixLabels();
+
+	vector<string> getTestFileNames();
+	vector<int> getTestMatrixLabels();
 	~Process();
 
 private:
 	vector<int> matrixLabels;
 	vector<string> trainingFileNames;
+	vector<int> testLabels;
+	vector<string> testFileNames;
+
 };
 

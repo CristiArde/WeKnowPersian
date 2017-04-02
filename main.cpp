@@ -4,18 +4,30 @@
 #include <opencv2\opencv.hpp>
 #include <iostream>
 #include "Process.h"
+#include "SVMClassifier.h"
+
 using namespace cv;
 using namespace std;
 int main(int argc, char** argv)
 {
 	cout << CV_VERSION;
-	system("pause");
-	
+
 
 	Process *process = new Process();
 
-	process->getTrainingFiles();
+	process->setTrainingFiles();
+	vector<string> TrainFileNames = process->getTrainFileNames();
+	vector<int> MatrixLabels = process->getMatrixLabels();
+
+	process->setTestFiles();
+	vector<string> testFNames = process->getTestFileNames();
+	vector<int> testLabels = process->getTestMatrixLabels();
+
 	
+	SVMClassifier* SVMclasy = new SVMClassifier();
+	SVMclasy->trainSVM(TrainFileNames, MatrixLabels);
+
+
 	return 0;
 
 }
