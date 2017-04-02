@@ -23,5 +23,6 @@ public:
 	void testSVM(vector<string>, vector<int>);
 private:
 	int imageMatrix;
+	cv::Size s_resize;
 };
 
