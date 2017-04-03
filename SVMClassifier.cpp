@@ -17,7 +17,7 @@ SVMClassifier::~SVMClassifier()
 
 void SVMClassifier::trainSVM(vector<string> trainingFilenames, vector<int> labels)
 {
-	imageMatrix = 75 * 75;
+	imageMatrix = 60 * 60;
 	
 	cv::Mat trainingMat(trainingFilenames.size(), imageMatrix, CV_32FC1);
 
@@ -73,7 +73,12 @@ void SVMClassifier::trainSVM(vector<string> trainingFilenames, vector<int> label
 void SVMClassifier::testSVM(vector<string> testFilenames, vector<int> testLabels)
 {
 	cv::Ptr<cv::ml::SVM> svm = cv::ml::StatModel::load<cv::ml::SVM>("classifier.yml");
-	/*
+
+	imageMatrix = 60 * 60;
+	
+
+	cv::Mat testMat(testFilenames.size(), imageMatrix, CV_32FC1);
+
 	// stats information
 	int totalClassifications = 0;
 	int totalCorrect = 0;
@@ -82,27 +87,30 @@ void SVMClassifier::testSVM(vector<string> testFilenames, vector<int> testLabels
 	// loop over test filenames
 	for (int index = 0; index<testFilenames.size(); index++)
 	{
-	// read image file (grayscale)
-	cv::Mat imgMat = cv::imread(testFilenames[index], 0);
+		// read image file (grayscale)
+		cv::Mat imgMat = cv::imread(testFilenames[index], 0);
 
-	// convert 2d to 1d
-	cv::Mat testMat = imgMat.clone().reshape(1, 1);
-	testMat.convertTo(testMat, CV_32F);
+		//Resize image matrix to 60x60
+		cv::resize(imgMat, imgMat, s_resize);
 
-	// try to predict which number has been drawn
-	try{
-	int predicted = svm->predict(testMat);
-	//std::cout<< "expected: " << expectedLabels[index] << " -> predicted: " << predicted << std::endl;
+		// convert 2d to 1d	
+		cv::Mat testMat = imgMat.clone().reshape(1,1);
+		testMat.convertTo(testMat, CV_32F);
 
-	// stats
-	totalClassifications++;
-	if (testLabels[index] == predicted) { totalCorrect++; }
-	else { totalWrong++; }
+		// try to predict which number has been drawn
+		try{
+			float predicted = svm->predict(testMat);
+			//std::cout<< "expected: " << expectedLabels[index] << " -> predicted: " << predicted << std::endl;
 
-	}
-	catch (cv::Exception ex){
+			// stats
+			totalClassifications++;
+			if (testLabels[index] == predicted) { totalCorrect++; }
+			else { totalWrong++; }
 
-	}
+		}
+		catch (cv::Exception ex){
+
+		}
 
 	}
 
@@ -110,32 +118,12 @@ void SVMClassifier::testSVM(vector<string> testFilenames, vector<int> testLabels
 	float percentageCorrect = ((float)totalCorrect / totalClassifications) * 100;
 	float percentageIncorrect = 100 - percentageCorrect;
 
-	// output
+	// output 
 	std::cout << std::endl << "Number of classications : " << totalClassifications << std::endl;
 	std::cout << "Correct:  " << totalCorrect << " (" << percentageCorrect << "%)" << std::endl;
 	std::cout << "Wrong: " << totalWrong << " (" << percentageIncorrect << "%)" << std::endl;
 
-	*/
 
 
-	// read image file (grayscale)
-	cv::Mat imgMat = cv::imread("ID0000389_p1_B36_cc1.tiff", 0);
-
-	// convert 2d to 1d	
-	cv::Mat testMat = imgMat.clone().reshape(1, 1);
-	testMat.convertTo(testMat, CV_32F);
-
-	// try to predict which number has been drawn
-	try {
-		int predicted = svm->predict(testMat);
-
-		std::cout << std::endl << "Recognizing following number -> " << predicted << std::endl << std::endl;
-
-		std::string notifyCmd = "notify-send -t 1000 Recognized: " + std::to_string(predicted);
-		system(notifyCmd.c_str());
-
-	}
-	catch (cv::Exception ex) {
-
-	}
+	
 }
