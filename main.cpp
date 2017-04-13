@@ -6,7 +6,7 @@
 #include "Process.h"
 #include "SVMClassifier.h"
 #include "KNNClassifier.h"
-//#include "MLPClassifier.h"
+#include "MLPClassifier.h"
 
 using namespace cv;
 using namespace std;
@@ -25,24 +25,24 @@ int main(int argc, char** argv)
 	vector<string> testFNames = process->getTestFileNames();
 	vector<int> testLabels = process->getTestMatrixLabels();
 
-	cout << "Starting Support Vector Machine Classification..." << endl;
+	//cout << "Starting Support Vector Machine Classification..." << endl;
 	//SVMClassifier* SVMclasy = new SVMClassifier();
 	//SVMclasy->trainSVM(TrainFileNames, MatrixLabels);
 	//SVMclasy->testSVM(testFNames, testLabels);
 	
 
 	// MLP Neural Network
-	//cout << "Starting Multilayer Perceptron Neural Network..." << endl;
-	//MLPClassifier* MLPclasy = new MLPClassifier();
+	cout << "Starting Multilayer Perceptron Neural Network..." << endl;
+	MLPClassifier* MLPclasy = new MLPClassifier();
 	//MLPclasy->trainMLP(TrainFileNames, MatrixLabels);
-	//MLPclasy->testMLP(testFNames, testLabels);
+	MLPclasy->testMLP(testFNames, testLabels);
 
 
 	// KNN CLassification
-	cout << "Starting K-Nearest Neighbour Classification..." << endl;
-	KNNClassifier* KNNclasy = new KNNClassifier();
+	//cout << "Starting K-Nearest Neighbour Classification..." << endl;
+	//KNNClassifier* KNNclasy = new KNNClassifier();
 	//KNNclasy->trainKNN(TrainFileNames, MatrixLabels);
-	KNNclasy->testKNN(testFNames, testLabels);
+	//KNNclasy->testKNN(testFNames, testLabels);
 
 
 	system("pause");

@@ -127,11 +127,9 @@ void SVMClassifier::testSVM(vector<string> testFilenames, vector<int> testLabels
 				break;
 
 			case 2:
-
 				resultArray[testLabels[index]][2]++;
 				break;
 			case 3:
-
 				resultArray[testLabels[index]][3]++;
 				break;
 
@@ -140,12 +138,10 @@ void SVMClassifier::testSVM(vector<string> testFilenames, vector<int> testLabels
 				break;
 
 			case 5:
-				if (testLabels[index] == predicted)
-					resultArray[testLabels[index]][5]++;
+				resultArray[testLabels[index]][5]++;
 				break;
 			case 6:
-					resultArray[testLabels[index]][6]++;
-
+				resultArray[testLabels[index]][6]++;
 				break;
 			case 7:
 				resultArray[testLabels[index]][7]++;

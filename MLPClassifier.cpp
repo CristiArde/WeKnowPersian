@@ -74,9 +74,28 @@ void MLPClassifier::trainMLP(vector<string> trainingFilenames, vector<int> train
 
 void MLPClassifier::testMLP(vector<string> testFilenames, vector<int> testLabels)
 {
+	// stats information
+	int totalClassifications = 0;
+	int totalCorrect = 0;
+	int totalWrong = 0;
+
 	cv::Mat testMat(testFilenames.size(), imageMatrix, CV_32FC1);
 	cv::Ptr<cv::ml::ANN_MLP> mlp = cv::ml::StatModel::load<cv::ml::ANN_MLP>("MLPClassifier.yml");
 	
+	int resultArray[10][10] = {
+		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
+	};
+
+
 	//read images
 	for (int index = 0; index < testFilenames.size(); index++)
 	{
@@ -104,11 +123,76 @@ void MLPClassifier::testMLP(vector<string> testFilenames, vector<int> testLabels
 		int pred = mlp->predict(testMat.row(i), cv::noArray());
 		int truth = testLabels.at(i);
 		confusion.at<int>(pred, truth)++;
+
+
+		int number = (int)floor(pred + 0.5);
+		switch (number)
+		{
+		case 0:
+			resultArray[testLabels[i]][0]++;
+			break;
+
+		case 1:
+			resultArray[testLabels[i]][1]++;
+			break;
+
+		case 2:
+			resultArray[testLabels[i]][2]++;
+			break;
+		case 3:
+			resultArray[testLabels[i]][3]++;
+			break;
+
+		case 4:
+			resultArray[testLabels[i]][4]++;
+			break;
+
+		case 5:
+			resultArray[testLabels[i]][5]++;
+			break;
+		case 6:
+			resultArray[testLabels[i]][6]++;
+
+			break;
+		case 7:
+			resultArray[testLabels[i]][7]++;
+			break;
+		case 8:
+			resultArray[testLabels[i]][8]++;
+			break;
+		case 9:
+			resultArray[testLabels[i]][9]++;
+			break;
+		}
+		totalClassifications++;
+		if (testLabels[i] == pred) { totalCorrect++; }
+		else { totalWrong++; }
+
 	}
 
 	// Get the diagonal values of the matrix (correct values)
 	cv::Mat correct = confusion.diag();
 	float accuracy = (sum(correct)[0] / sum(confusion)[0]) * 100;
-	cout << "Correct:  " << sum(correct)[0] << " (" << accuracy << "%)" << std::endl;
+	// calculate percentages
+	float percentageCorrect = ((float)totalCorrect / totalClassifications) * 100;
+	float percentageIncorrect = 100 - percentageCorrect;
+	std::cout << std::endl << "Number of classications : " << totalClassifications << std::endl;
+	std::cout << "Correct:  " << totalCorrect << " (" << percentageCorrect << "%)" << std::endl;
+	std::cout << "Wrong: " << totalWrong << " (" << percentageIncorrect << "%)" << std::endl << std::endl << std::endl;
 	//cerr << "confusion:\n" << confusion << endl;
+
+
+	//matrix evaluation
+	cout << "MLP RECOGNITION MATRIX" << endl;
+	cout << setw(5) << "0" << setw(8) << "1" << setw(8) << "2" << setw(8) << "3" << setw(8) << "4" << setw(8) << "5" << setw(8) << "6" << setw(8) << "7" << setw(8) << "8" << setw(8) << "9" << endl;
+	cout << "_________________________________________________________________________________" << endl;
+	for (int i = 0; i < 10; i++)
+	{
+		cout << i << "|" << setw(2);
+		for (int j = 0; j < 10; j++)
+		{
+			cout << setw(3) << resultArray[i][j] << "   | ";
+		}
+		cout << endl;
+	}
 }
