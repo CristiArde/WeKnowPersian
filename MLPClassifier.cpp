@@ -15,14 +15,14 @@ MLPClassifier::~MLPClassifier()
 
 void MLPClassifier::trainMLP(vector<string> trainingFilenames, vector<int> trainingLabels)
 {
-	cv::Mat trainingMat(trainingFilenames.size(), imageMatrix, CV_32FC1);
+	trainingMat = cv::Mat(trainingFilenames.size(), imageMatrix, CV_32FC1);
 	cv::Mat classificationResult(1, 10, CV_32FC1);
 
-	cout << "Analyzing labels -> files..." << endl;
+	cout << "Analyzing features -> files..." << endl;
 	//read images
 	for (int index = 0; index < trainingFilenames.size(); index++)
 	{
-		cout << "Analyzing label -> file: " << trainingLabels[index] << "|" << trainingFilenames[index] << endl;
+		//cout << "Analyzing label -> file: " << trainingLabels[index] << "|" << trainingFilenames[index] << endl;
 		cv::Mat imgMat = cv::imread(trainingFilenames[index], 0);
 
 		// Resize image matrix to 60x60
@@ -110,7 +110,21 @@ void MLPClassifier::testMLP(vector<string> testFilenames, vector<int> testLabels
 	cv::Mat correct = confusion.diag();
 	float accuracy = (sum(correct)[0] / sum(confusion)[0]) * 100;
 	cout << "Correct:  " << sum(correct)[0] << " (" << accuracy << "%)" << std::endl;
-	cout << "confusion:\n" << confusion << endl;
+	//cout << "confusion:\n" << confusion << endl;
+
+	// Print pretty confusion matrix
+	cout << "MLP CONFUSION MATRIX" << endl;
+	cout << setw(5) << "0" << setw(8) << "1" << setw(8) << "2" << setw(8) << "3" << setw(8) << "4" << setw(8) << "5" << setw(8) << "6" << setw(8) << "7" << setw(8) << "8" << setw(8) << "9" << endl;
+	cout << "_________________________________________________________________________________" << endl;
+	for (int i = 0; i < 10; i++)
+	{
+	cout << i << "|" << setw(2);
+	for (int j = 0; j < 10; j++)
+	{
+	cout << setw(3) << confusion.at<int>(i, j) << "   | ";
+	}
+	cout << endl;
+	}
 
 	//plot_binary(testMat, correct, "Predictions MLP");
 }
