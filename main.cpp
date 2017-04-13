@@ -24,25 +24,26 @@ int main(int argc, char** argv)
 	process->setTestFiles();
 	vector<string> testFNames = process->getTestFileNames();
 	vector<int> testLabels = process->getTestMatrixLabels();
-
-	//cout << "Starting Support Vector Machine Classification..." << endl;
-	//SVMClassifier* SVMclasy = new SVMClassifier();
+/*
+	cout << "Starting Support Vector Machine Classification..." << endl;
+	SVMClassifier* SVMclasy = new SVMClassifier();
 	//SVMclasy->trainSVM(TrainFileNames, MatrixLabels);
-	//SVMclasy->testSVM(testFNames, testLabels);
-	
+	SVMclasy->testSVM(testFNames, testLabels);
+	cout << endl << endl;
 
 	// MLP Neural Network
 	cout << "Starting Multilayer Perceptron Neural Network..." << endl;
 	MLPClassifier* MLPclasy = new MLPClassifier();
 	//MLPclasy->trainMLP(TrainFileNames, MatrixLabels);
 	MLPclasy->testMLP(testFNames, testLabels);
-
-
+	cout << endl << endl;
+*/
+	
 	// KNN CLassification
-	//cout << "Starting K-Nearest Neighbour Classification..." << endl;
-	//KNNClassifier* KNNclasy = new KNNClassifier();
+	 cout << "Starting K-Nearest Neighbour Classification..." << endl;
+	KNNClassifier* KNNclasy = new KNNClassifier();
 	//KNNclasy->trainKNN(TrainFileNames, MatrixLabels);
-	//KNNclasy->testKNN(testFNames, testLabels);
+	KNNclasy->testKNN(testFNames, testLabels);
 
 
 	system("pause");
