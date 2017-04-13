@@ -1,12 +1,19 @@
+
 #include <opencv2/core.hpp>
 #include <opencv2/imgcodecs.hpp>
 #include <opencv2/highgui.hpp>
 #include <opencv2\opencv.hpp>
+
+
 #include <iostream>
+#include "tinydir.h"
 #include "Process.h"
-#include "SVMClassifier.h"
-#include "KNNClassifier.h"
-#include "MLPClassifier.h"
+//#include "SVMClassifier.h"
+//#include "KNNClassifier.h"
+//#include "MLPClassifier.h"
+#include "SVMSGDClassifier.h"
+
+
 
 using namespace cv;
 using namespace std;
@@ -32,10 +39,10 @@ int main(int argc, char** argv)
 	
 
 	// MLP Neural Network
-	cout << "Starting Multilayer Perceptron Neural Network..." << endl;
-	MLPClassifier* MLPclasy = new MLPClassifier();
+	//cout << "Starting Multilayer Perceptron Neural Network..." << endl;
+	//MLPClassifier* MLPclasy = new MLPClassifier();
 	//MLPclasy->trainMLP(TrainFileNames, MatrixLabels);
-	MLPclasy->testMLP(testFNames, testLabels);
+	//MLPclasy->testMLP(testFNames, testLabels);
 
 
 	// KNN CLassification
@@ -43,6 +50,11 @@ int main(int argc, char** argv)
 	//KNNClassifier* KNNclasy = new KNNClassifier();
 	//KNNclasy->trainKNN(TrainFileNames, MatrixLabels);
 	//KNNclasy->testKNN(testFNames, testLabels);
+
+	cout << "Starting SVMSGD Classification..." << endl;
+	SVMSGDClassifier * SVMSGDclasy = new SVMSGDClassifier();
+	//SVMSGDclasy->trainSVMSGD(TrainFileNames, MatrixLabels);
+	SVMSGDclasy->testSVMSGD(testFNames, testLabels);
 
 
 	system("pause");
