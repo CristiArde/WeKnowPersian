@@ -5,7 +5,7 @@
 #include <iostream>
 #include "Process.h"
 #include "SVMClassifier.h"
-#include "MLPClassifier.h"
+//#include "MLPClassifier.h"
 
 using namespace cv;
 using namespace std;
@@ -25,16 +25,16 @@ int main(int argc, char** argv)
 	vector<int> testLabels = process->getTestMatrixLabels();
 
 	
-	//SVMClassifier* SVMclasy = new SVMClassifier();
+	SVMClassifier* SVMclasy = new SVMClassifier();
 	//SVMclasy->trainSVM(TrainFileNames, MatrixLabels);
-	//SVMclasy->testSVM(testFNames, testLabels);
+	SVMclasy->testSVM(testFNames, testLabels);
 	
 
 	// MLP Neural Network
-	cout << "Starting Multilayer Perceptron Neural Network..." << endl;
-	MLPClassifier* MLPclasy = new MLPClassifier();
-	MLPclasy->trainMLP(TrainFileNames, MatrixLabels);
-	MLPclasy->testMLP(testFNames, testLabels);
+	//cout << "Starting Multilayer Perceptron Neural Network..." << endl;
+	//MLPClassifier* MLPclasy = new MLPClassifier();
+	//MLPclasy->trainMLP(TrainFileNames, MatrixLabels);
+	//MLPclasy->testMLP(testFNames, testLabels);
 
 	system("pause");
 
