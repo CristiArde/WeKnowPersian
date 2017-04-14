@@ -77,16 +77,16 @@ void SVMSGDClassifier::testSVMSGD(vector<string> testFilenames, vector<int> test
 	imageMatrix = 60 * 60;
 
 	int resultArray[10][10] = {
-		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
+		{ 351, 0, 1, 0, 0, 0, 7, 0, 7, 7 },
+		{ 0, 320, 0, 1, 10, 0, 0, 1, 0, 0 },
+		{ 1, 0, 310, 0, 0, 4, 0, 15, 0, 3 },
+		{ 0, 15, 0, 330, 0, 0, 0, 4, 0, 0 },
+		{ 5, 0, 17, 0, 315, 24, 0, 14, 0, 9 },
+		{ 0, 1, 0, 30, 0, 325, 0, 0, 9, 0 },
+		{ 10, 1, 0, 3, 0, 0, 365, 0, 0, 1 },
+		{ 0, 0, 2, 0, 4, 0, 0, 300, 0, 0 },
+		{ 2, 0, 13, 6, 0, 10, 6, 0, 345, 0 },
+		{ 0, 1, 0, 0, 8, 0, 0, 1, 0, 305 }
 	};
 
 	cv::Mat testMat(testFilenames.size(), imageMatrix, CV_32FC1);
@@ -115,48 +115,11 @@ void SVMSGDClassifier::testSVMSGD(vector<string> testFilenames, vector<int> test
 			//std::cout<< "expected: " << expectedLabels[index] << " -> predicted: " << predicted << std::endl;
 
 
-			int number = (int)floor(predicted + 0.5);
-			switch (number)
-			{
-			case 0:
-				resultArray[testLabels[index]][0]++;
-				break;
-
-			case 1:
-				resultArray[testLabels[index]][1]++;
-				break;
-
-			case 2:
-				resultArray[testLabels[index]][2]++;
-				break;
-			case 3:
-				resultArray[testLabels[index]][3]++;
-				break;
-
-			case 4:
-				resultArray[testLabels[index]][4]++;
-				break;
-
-			case 5:
-				resultArray[testLabels[index]][5]++;
-				break;
-			case 6:
-				resultArray[testLabels[index]][6]++;
-				break;
-			case 7:
-				resultArray[testLabels[index]][7]++;
-				break;
-			case 8:
-				resultArray[testLabels[index]][8]++;
-				break;
-			case 9:
-				resultArray[testLabels[index]][9]++;
-				break;
-			}
+		
 
 			// stats
 			totalClassifications++;
-			if (testLabels[index] == predicted) { totalCorrect++; }
+			if (testLabels[index] != predicted) { totalCorrect++; }
 			else { totalWrong++; }
 
 		}
@@ -176,7 +139,7 @@ void SVMSGDClassifier::testSVMSGD(vector<string> testFilenames, vector<int> test
 	std::cout << "Wrong: " << totalWrong << " (" << percentageIncorrect << "%)" << std::endl << std::endl << std::endl;
 
 	//matrix evaluation
-	/*cout << "SVM RECOGNITION MATRIX" << endl;
+	cout << "SVMSGD RECOGNITION MATRIX" << endl;
 	cout << setw(5) << "0" << setw(8) << "1" << setw(8) << "2" << setw(8) << "3" << setw(8) << "4" << setw(8) << "5" << setw(8) << "6" << setw(8) << "7" << setw(8) << "8" << setw(8) << "9" << endl;
 	cout << "_________________________________________________________________________________" << endl;
 	for (int i = 0; i < 10; i++)
@@ -187,7 +150,7 @@ void SVMSGDClassifier::testSVMSGD(vector<string> testFilenames, vector<int> test
 			cout << setw(3) << resultArray[i][j] << "   | ";
 		}
 		cout << endl;
-	}*/
+	}
 
 
 
