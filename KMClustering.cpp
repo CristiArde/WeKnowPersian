@@ -81,6 +81,9 @@ tuple<vector<vector<int>*>, vector<FeatureDistance*>> KMClustering::CalculateDis
 			//cout << "trainingDataMat row: " << (*clusters[centroid])[i] << endl;
 			//cout << "centroid index: " << centroids[centroid]->imgIndex << endl;
 
+			dataMat.convertTo(dataMat, CV_8U);
+			centers.convertTo(centers, CV_8U);
+
 			double n = cv::norm(dataMat.row((*clusters[centroid])[i]), centers.row(centroid), normType);
 
 			if (i == 0 || centroids[centroid]->norm > n)
